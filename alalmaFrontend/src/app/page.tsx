@@ -18,16 +18,35 @@ import {
 import { availablePlans, formatPrice } from '@/data/plans'
 
 export default function Home() {
-  const [currentWord, setCurrentWord] = useState(0)
-  const words = ['Alalma', 'Sabiduría', 'Transformación', 'Consciencia']
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [currentText, setCurrentText] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const words = ['Alalma', 'Alma', 'Armonía', 'Ascensión']
   
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWord((prev) => (prev + 1) % words.length)
-    }, 3000) // Cambia cada 3 segundos
+    const currentWord = words[currentWordIndex]
+    const timeout = setTimeout(() => {
+      if (isDeleting) {
+        // Borrando letra por letra - MÁS RÁPIDO
+        setCurrentText(currentWord.substring(0, currentText.length - 1))
+        
+        if (currentText === '') {
+          setIsDeleting(false)
+          setCurrentWordIndex((prev) => (prev + 1) % words.length)
+        }
+      } else {
+        // Escribiendo letra por letra - MÁS RÁPIDO
+        setCurrentText(currentWord.substring(0, currentText.length + 1))
+        
+        if (currentText === currentWord) {
+          // Pausa más corta antes de empezar a borrar
+          setTimeout(() => setIsDeleting(true), 1200)
+        }
+      }
+    }, isDeleting ? 60 : 80) // VELOCIDADES MÁS RÁPIDAS
     
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearTimeout(timeout)
+  }, [currentText, isDeleting, currentWordIndex, words])
 
   const getPlanIcon = (level: string) => {
     switch (level) {
@@ -118,10 +137,9 @@ export default function Home() {
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
             Bienvenido a{' '}
             <span 
-              key={currentWord}
-              className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 animate-pulse"
+              className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 transition-all duration-200 ease-in-out"
             >
-              {words[currentWord]}
+              {currentText}
             </span>
           </h1>
           <p className="text-xl text-gray-600 mb-4 max-w-3xl mx-auto">
