@@ -1,3 +1,26 @@
+/**
+ * ALALMA DASHBOARD - Portal principal de usuarios autenticados
+ * ===========================================================
+ * 
+ * Este es el dashboard principal donde los usuarios exploran y compran contenido.
+ * 
+ * FUNCIONALIDADES PRINCIPALES:
+ * 1. Navbar con búsqueda integrada (estilo Udemy)
+ * 2. Sistema de filtros y categorías
+ * 3. Grid de productos con control de acceso por plan
+ * 4. Carrito de compras y lista de favoritos
+ * 5. Gestión de perfil de usuario
+ * 
+ * APIS NECESARIAS PARA LOVABLE:
+ * - GET /api/products - Lista de productos con filtros
+ * - GET /api/user/cart - Carrito del usuario
+ * - POST /api/user/cart - Agregar al carrito
+ * - GET /api/user/favorites - Lista de favoritos
+ * - POST /api/user/favorites - Agregar a favoritos
+ * - GET /api/user/profile - Información del usuario
+ * - PUT /api/user/profile - Actualizar perfil
+ */
+
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
@@ -20,7 +43,8 @@ import {
   Settings,
   CreditCard,
   ChevronDown,
-  UserCircle
+  UserCircle,
+  Search
 } from 'lucide-react'
 
 interface CartItem {
@@ -181,34 +205,49 @@ export default function EcommercePage() {
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center">
-              <Sparkles className="w-8 h-8 text-purple-600 mr-3" />
-              <div className="flex items-center">
-                <h1 className="text-2xl font-bold text-gray-900">Alalma Sabiduría</h1>
-                {/* Indicador del plan actual - clickeable para cambiar */}
-                <button
-                  onClick={() => router.push('/plans')}
-                  className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 border border-purple-200 hover:from-purple-200 hover:to-pink-200 transition-all duration-200 cursor-pointer"
-                  title="Cambiar plan"
-                >
-                  <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
-                  {userPlan.name}
-                </button>
+          <div className="flex items-center py-4 space-x-6">
+            {/* Logo y título compacto */}
+            <div className="flex items-center flex-shrink-0">
+              <Sparkles className="w-8 h-8 text-purple-600 mr-2" />
+              <h1 className="text-xl font-bold text-gray-900">Alalma</h1>
+            </div>
+
+            {/* Botón Categorías */}
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => router.push('/welcome')}
+              className="border-purple-200 text-purple-700 hover:bg-purple-50 flex-shrink-0"
+            >
+              <Grid3X3 className="w-4 h-4 mr-2" />
+              Categorías
+            </Button>
+
+            {/* Barra de búsqueda central */}
+            <div className="flex-1 max-w-2xl">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Buscar cursos, terapias, herramientas..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                />
               </div>
             </div>
-            
-            <div className="flex items-center space-x-4">
-              {/* Botón Categorías con pulso suave */}
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => router.push('/welcome')}
-                className="relative border-purple-200 text-purple-700 hover:bg-purple-50 animate-pulse hover:animate-none transition-all duration-300"
+
+            {/* Navegación derecha */}
+            <div className="flex items-center space-x-3">
+              {/* Indicador del plan actual */}
+              <button
+                onClick={() => router.push('/plans')}
+                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 border border-purple-200 hover:from-purple-200 hover:to-pink-200 transition-all duration-200 cursor-pointer flex-shrink-0"
+                title="Cambiar plan"
               >
-                <Grid3X3 className="w-4 h-4 mr-2" />
-                Categorías
-              </Button>
+                <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+                {userPlan.name}
+              </button>
               
               <Button 
                 variant="ghost" 

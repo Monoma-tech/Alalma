@@ -1,15 +1,33 @@
+/**
+ * ALALMA LANDING PAGE - Página principal de la plataforma
+ * =====================================================
+ * 
+ * Esta es la landing page de Alalma, plataforma de crecimiento espiritual.
+ * 
+ * FUNCIONALIDADES PRINCIPALES:
+ * 1. Navbar con búsqueda y navegación
+ * 2. Hero section con texto animado (typewriter effect)
+ * 3. Grid de categorías destacadas
+ * 4. Showcase de planes de suscripción
+ * 5. Testimonios y footer
+ * 
+ * APIS NECESARIAS PARA LOVABLE:
+ * - GET /api/plans - Planes de suscripción
+ * - GET /api/categories - Categorías de productos
+ * - GET /api/stats - Estadísticas generales (estudiantes, cursos)
+ */
+
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { 
   Search, 
-  Menu, 
+  ChevronDown,
   Heart, 
   ShoppingCart,
-  User,
   Sparkles,
   Crown,
   Zap,
@@ -21,7 +39,11 @@ export default function Home() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [currentText, setCurrentText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
-  const words = ['Alalma', 'Alma', 'Armonía', 'Ascensión']
+  const [isExplorarOpen, setIsExplorarOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  
+  // Palabras para el efecto typewriter (pueden venir del backend en el futuro)
+  const words = useMemo(() => ['Alalma', 'Alma', 'Armonía', 'Ascensión'], [])
   
   useEffect(() => {
     const currentWord = words[currentWordIndex]
@@ -69,13 +91,131 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
-      {/* Header estilo Udemy */}
-      <header className="bg-white shadow-sm border-b">
+    <div className="min-h-screen bg-white">
+      {/* ==========================================
+          NAVBAR PRINCIPAL DE LANDING PAGE
+          ========================================== 
+          
+          Funcionalidades:
+          - Dropdown de exploración por categorías
+          - Búsqueda que redirige a /welcome?search=query
+          - Enlaces a autenticación y planes
+          
+          APIs necesarias:
+          - GET /api/categories (para dropdown)
+      */}
+      <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
+            {/* Logo y navegación izquierda */}
             <div className="flex items-center">
+              <Sparkles className="w-8 h-8 text-purple-600 mr-2" />
+              <span className="text-2xl font-bold text-gray-900">Alalma</span>
+            </div>
+
+            {/* Explorar Dropdown */}
+            <div className="relative ml-8">
+              <button
+                onMouseEnter={() => setIsExplorarOpen(true)}
+                onMouseLeave={() => setIsExplorarOpen(false)}
+                className="flex items-center text-gray-700 hover:text-purple-600 font-medium px-4 py-2"
+              >
+                Explorar
+                <ChevronDown className="w-4 h-4 ml-1" />
+              </button>
+              
+              {/* Dropdown de Explorar */}
+              {isExplorarOpen && (
+                <div 
+                  className="absolute top-full left-0 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                  onMouseEnter={() => setIsExplorarOpen(true)}
+                  onMouseLeave={() => setIsExplorarOpen(false)}
+                >
+                  <div className="p-4">
+                    <div className="grid grid-cols-1 gap-2">
+                      <h3 className="font-semibold text-gray-900 mb-2">Explorar por objetivo</h3>
+                      <Link href="/welcome?category=curso" className="block px-3 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded">
+                        Comenzar tu crecimiento espiritual
+                      </Link>
+                      <Link href="/plans" className="block px-3 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded">
+                        Prepárate para una transformación
+                      </Link>
+                      <Link href="/welcome?category=terapia" className="block px-3 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded">
+                        Practica con sanación energética
+                      </Link>
+                    </div>
+                    
+                    <hr className="my-4" />
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">Categorías Populares</h4>
+                        <Link href="/welcome?category=curso" className="block text-gray-600 hover:text-purple-600 py-1">Meditación</Link>
+                        <Link href="/welcome?category=terapia" className="block text-gray-600 hover:text-purple-600 py-1">Reiki</Link>
+                        <Link href="/welcome?category=herramienta" className="block text-gray-600 hover:text-purple-600 py-1">Cristales</Link>
+                        <Link href="/welcome?category=curso" className="block text-gray-600 hover:text-purple-600 py-1">Astrología</Link>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">Desarrollo Espiritual</h4>
+                        <Link href="/welcome" className="block text-gray-600 hover:text-purple-600 py-1">Transformación personal</Link>
+                        <Link href="/welcome" className="block text-gray-600 hover:text-purple-600 py-1">Sanación emocional</Link>
+                        <Link href="/welcome" className="block text-gray-600 hover:text-purple-600 py-1">Armonía interior</Link>
+                        <Link href="/welcome" className="block text-gray-600 hover:text-purple-600 py-1">Ascensión espiritual</Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Barra de búsqueda */}
+            <div className="flex-1 max-w-xl mx-8">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Buscar cursos, terapias, herramientas de crecimiento espiritual..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && searchQuery.trim()) {
+                      window.location.href = `/welcome?search=${encodeURIComponent(searchQuery)}`
+                    }
+                  }}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            {/* Navegación derecha */}
+            <div className="flex items-center space-x-4">
+              {/* Enlace a Planes */}
+              <Link href="/plans" className="text-gray-700 hover:text-purple-600 font-medium hidden md:block">
+                Planes y precios
+              </Link>
+
+              {/* Alalma for Business */}
+              <Link href="/plans" className="text-gray-700 hover:text-purple-600 font-medium hidden lg:block">
+                Alalma for Business
+              </Link>
+
+              {/* Botones de autenticación */}
+              <div className="flex items-center space-x-3">
+                <Link href="/login">
+                  <Button variant="outline" size="sm">
+                    Iniciar sesión
+                  </Button>
+                </Link>
+                <Link href="/plans">
+                  <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                    Registrarse
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
               <Sparkles className="w-8 h-8 text-purple-600 mr-2" />
               <span className="text-2xl font-bold text-gray-900">Alalma</span>
             </div>
@@ -87,6 +227,8 @@ export default function Home() {
                 <input
                   type="text"
                   placeholder="Buscar cursos, terapias, herramientas..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
               </div>

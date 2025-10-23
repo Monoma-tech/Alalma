@@ -1,129 +1,152 @@
-# Al Alma - Plataforma de Sabiduría y Crecimiento Espiritual 🌟
+# 🌟 ALALMA - Frontend Next.js para Lovable AI
 
-Al Alma es una plataforma digital enfocada en el crecimiento espiritual y la sabiduría, ofreciendo cursos, terapias y herramientas para el desarrollo personal a través de un modelo de suscripciones.
+Plataforma de crecimiento espiritual con sistema de suscripciones y marketplace de contenido.
 
-## 🚀 Tecnologías
+## 🎯 **IMPORTANTE PARA LOVABLE AI**
 
-- **Next.js 15.5.4** con App Router
-- **React 19** con TypeScript
-- **Tailwind CSS 4** para estilos
-- **Lucide React** para iconografía
-- **Node.js 24.4.0**
+Este proyecto necesita un backend completo. Toda la documentación necesaria está en:
+- **APIs**: `/docs/api-specification.md` - Especificación completa de endpoints
+- **Tipos**: `/src/types/api.ts` - Interfaces TypeScript para todas las APIs  
+- **Arquitectura**: `/docs/architecture.md` - Estructura del proyecto
 
-## 🏗️ Arquitectura del Proyecto
+## 📡 **APIs Críticas Necesarias**
 
-### Modelo de Suscripciones
-La plataforma está centrada en un sistema de planes de suscripción que controla el acceso al contenido:
-
-- **Free** - Acceso básico gratuito
-- **Basic** - $29.900/mes - Acceso a contenido básico
-- **Intermediate** - $49.900/mes - Acceso intermedio + básico
-- **Premium** - $89.900/mes - Acceso completo a toda la plataforma
-
-### Flujo de Usuario
-1. **Landing Page** (`/`) - Presentación de la plataforma
-2. **Login** (`/login`) - Autenticación (redirige a planes)
-3. **Planes** (`/plans`) - **Pantalla principal** - Selección de suscripción
-4. **Dashboard** (`/dashboard`) - Contenido filtrado por plan del usuario
-5. **Productos** (`/product/[id]`) - Detalles individuales de cursos/terapias
-
-## ✅ Funcionalidades Implementadas
-
-### 🔐 Sistema de Autenticación
-- Login funcional con redirección a planes
-- Gestión de estado de usuario global
-
-### 💎 Sistema de Planes de Suscripción
-- Interfaz de selección de planes como pantalla principal
-- Context global para manejo de estado de plan (`UserPlanContext`)
-- Persistencia en localStorage
-- Control de acceso basado en suscripción
-
-### 🛍️ Ecommerce Espiritual
-- Catálogo de productos (cursos, terapias, herramientas)
-- Tarjetas de productos con indicadores de acceso por plan
-- Sistema de favoritos/wishlist con sidebar
-- Carrito de compras con animaciones fly-to-cart
-- Navegación con breadcrumbs
-
-### 🎨 Componentes Avanzados
-- `WisdomProductCardWithPlan` - Tarjetas con control de acceso visual
-- `FavoritesSidebar` - Panel lateral para favoritos
-- `PlansPage` - Interfaz principal de suscripciones
-- Optimización de imágenes con Next.js Image
-
-### 🔒 Control de Acceso
-- Restricciones visuales por nivel de plan
-- Badges informativos de planes requeridos
-- Redirección automática para actualizaciones
-- Precios condicionales según suscripción
-
-## 🚧 En Desarrollo / Pendiente
-
-### 🔄 Integración de Pagos
-- [ ] Pasarela de pagos real (Stripe/PayPal)
-- [ ] Procesamiento de suscripciones
-- [ ] Webhooks para renovaciones
-
-### 🗄️ Backend y Persistencia
-- [ ] Base de datos para usuarios y suscripciones
-- [ ] API para gestión de cuentas
-- [ ] Autenticación robusta con JWT
-
-### 📱 Mejoras de UX/UI
-- [ ] Responsive design completo
-- [ ] Tema oscuro/claro
-- [ ] Notificaciones toast
-- [ ] Loading states mejorados
-
-### 📊 Analytics y SEO
-- [ ] Google Analytics integración
-- [ ] SEO optimization
-- [ ] Sitemap y robots.txt
-
-### 🎯 Funcionalidades Adicionales
-- [ ] Sistema de progreso en cursos
-- [ ] Certificados de finalización
-- [ ] Chat de soporte
-- [ ] Reseñas y ratings
-
-## 🛠️ Instalación y Desarrollo
-
-```bash
-# Instalar dependencias
-npm install
-
-# Ejecutar servidor de desarrollo
-npm run dev
-
-# Abrir en navegador
-# http://localhost:3000
+### Autenticación
+```typescript
+POST /api/auth/login
+POST /api/auth/register  
+POST /api/auth/refresh
+GET /api/user/profile
 ```
 
-## 📁 Estructura del Proyecto
+### Productos y Contenido
+```typescript
+GET /api/products         // Con filtros y paginación
+GET /api/products/:id     // Detalle individual
+GET /api/categories       // Cursos, Terapias, Herramientas
+GET /api/stats           // Para landing page
+```
+
+### Usuario y Carrito
+```typescript
+GET /api/user/cart       // Carrito persistente
+POST /api/user/cart      // Agregar productos
+GET /api/user/favorites  // Lista de favoritos
+POST /api/user/favorites // Agregar favoritos
+```
+
+### Suscripciones
+```typescript
+GET /api/plans           // 4 niveles: free, basic, intermediate, premium
+POST /api/user/subscribe // Cambiar plan con Stripe
+```
+
+## 🚀 **Stack Tecnológico**
+
+- **Framework**: Next.js 15 (App Router) + React 19
+- **UI**: Tailwind CSS + Lucide Icons  
+- **Estado**: React Context + TypeScript
+- **Deploy**: Vercel-ready
+
+## 🎯 **Funcionalidades Implementadas**
+
+### ✅ Frontend Completo
+- Landing page con animaciones typewriter
+- Dashboard estilo Udemy con búsqueda
+- Sistema de planes (4 niveles) 
+- Carrito y favoritos (localStorage)
+- Control de acceso por suscripción
+- Responsive design completo
+
+### ⏳ Necesita Backend
+- Autenticación JWT real
+- Base de datos de productos
+- Persistencia de carrito
+- Pagos con Stripe
+- Progreso de cursos
+
+## 🔄 **Modelo de Suscripciones**
+
+| Plan | Precio | Acceso |
+|------|--------|--------|
+| **Free** | $0 | Contenido básico gratuito |
+| **Basic** | $29/mes | Cursos introductorios |
+| **Intermediate** | $59/mes | + Terapias y herramientas |
+| **Premium** | $99/mes | Acceso completo + comunidad |
+
+## � **Datos de Ejemplo Necesarios**
+
+### Productos (20+ necesarios)
+- **Cursos**: Meditación, Astrología, Numerología, Tarot
+- **Terapias**: Reiki, Sanación energética, Bioenergética  
+- **Herramientas**: Cristales, Cartas oracle, Inciensos
+
+### Usuarios de Prueba
+- Admin, Instructor, Free User, Premium User
+
+## � **Control de Acceso**
+```typescript
+// Ya implementado en frontend
+const canAccess = (userPlan: string, requiredPlan: string) => {
+  const hierarchy = ['free', 'basic', 'intermediate', 'premium']
+  return hierarchy.indexOf(userPlan) >= hierarchy.indexOf(requiredPlan)
+}
+```
+
+## 🛠️ **Desarrollo Local**
+
+```bash
+npm install
+npm run dev     # http://localhost:3000
+```
+
+## 📁 **Estructura del Proyecto**
 
 ```
 src/
-├── app/                    # App Router de Next.js
-│   ├── dashboard/         # Dashboard principal con contenido
-│   ├── login/             # Autenticación
-│   ├── plans/             # Selección de suscripciones (PRINCIPAL)
-│   └── product/[id]/      # Detalles de productos
-├── components/
-│   ├── ecommerce/         # Componentes de ecommerce
-│   ├── plans/             # Componentes de suscripciones
-│   └── ui/                # Componentes base
-├── contexts/              # React Contexts
-├── data/                  # Datos mock y configuraciones
-└── hooks/                 # Custom hooks
+├── app/              # Páginas Next.js
+│   ├── page.tsx     # Landing page
+│   ├── dashboard/   # Portal de usuarios  
+│   ├── plans/       # Suscripciones
+│   └── login/       # Autenticación
+├── components/       # Componentes reutilizables
+├── contexts/         # Estado global (UserPlanContext)
+├── data/            # Mock data (reemplazar con APIs)
+├── types/           # Interfaces para APIs
+└── docs/            # Documentación para Lovable
 ```
 
-## 🔧 Configuración Git
+## 🔧 **Variables de Entorno**
 
-El proyecto está configurado con identidades Git específicas para el contexto Monoma.
+```env
+NEXT_PUBLIC_API_URL=      # URL del backend de Lovable
+NEXT_PUBLIC_STRIPE_KEY=   # Stripe public key
+NEXTAUTH_SECRET=          # Next.js auth secret
+```
+
+## 🎯 **Integración Frontend ↔ Backend**
+
+El frontend está listo para conectarse. Solo necesita:
+
+1. **Reemplazar mocks**: `mockProducts` → fetch a `/api/products`
+2. **Conectar auth**: localStorage → JWT + refresh tokens
+3. **Carrito real**: localStorage → `/api/user/cart`
+4. **Pagos**: Botones → Stripe checkout
+
+## 📝 **Notas para Desarrollo**
+
+### URLs Principales
+- `/` - Landing con conversión a suscripciones
+- `/plans` - **Pantalla principal** de suscripciones
+- `/dashboard` - Portal de contenido por plan
+- `/login` - Autenticación simple
+
+### Flujo de Usuario
+1. Landing → Explorar
+2. Planes → Suscribirse  
+3. Dashboard → Consumir contenido
+4. Carrito → Comprar adicionales
 
 ---
 
-**Estado Actual**: Arquitectura base completada, sistema de suscripciones funcionando, pendiente integración de pagos reales y backend.
-
-**Próximos Pasos**: Integración de pagos, persistencia de datos y mejoras de UX. 
+**🌟 Todo listo para que Lovable implemente el backend según las especificaciones** 
