@@ -23,7 +23,7 @@
 
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -67,7 +67,7 @@ interface FilterOptions {
   inStock: boolean
 }
 
-export default function EcommercePage() {
+function DashboardContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { userPlan } = useUserPlan()
@@ -948,5 +948,20 @@ export default function EcommercePage() {
         onMoveAllToCart={handleMoveAllToCart}
       />
     </div>
+  )
+}
+
+export default function EcommercePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando dashboard...</p>
+        </div>
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
   )
 }
