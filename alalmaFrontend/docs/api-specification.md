@@ -174,6 +174,117 @@
  */
 
 // ========================================
+// LIVE STREAMING
+// ========================================
+
+/**
+ * GET /api/live/sessions
+ * Query params: { category?: string, status?: 'live' | 'scheduled', page?: number }
+ * Response: PaginatedResponse<LiveSession>
+ * 
+ * Retorna sesiones de live streaming activas y programadas
+ */
+
+/**
+ * POST /api/live/sessions
+ * Headers: { Authorization: "Bearer <token>" }
+ * Body: { title: string, description?: string, category: string, accessLevel: string, price?: number, scheduledFor?: Date }
+ * Response: ApiResponse<LiveSession>
+ * 
+ * Crear nueva sesión de live streaming
+ */
+
+/**
+ * GET /api/live/sessions/:id
+ * Response: ApiResponse<LiveSession>
+ * 
+ * Obtener detalles de sesión específica
+ */
+
+/**
+ * POST /api/live/sessions/:id/join
+ * Headers: { Authorization: "Bearer <token>" }
+ * Response: ApiResponse<{ agoraToken: string, channelName: string, uid: number }>
+ * 
+ * Unirse a sesión live - retorna token de Agora para video
+ */
+
+/**
+ * POST /api/live/sessions/:id/leave
+ * Headers: { Authorization: "Bearer <token>" }
+ * Response: ApiResponse<{ success: boolean }>
+ * 
+ * Salir de sesión live
+ */
+
+/**
+ * GET /api/live/sessions/:id/messages
+ * Query params: { page?: number, limit?: number }
+ * Response: PaginatedResponse<LiveMessage>
+ * 
+ * Obtener mensajes del chat de la sesión
+ */
+
+/**
+ * POST /api/live/sessions/:id/messages
+ * Headers: { Authorization: "Bearer <token>" }
+ * Body: { content: string }
+ * Response: ApiResponse<LiveMessage>
+ * 
+ * Enviar mensaje al chat de la sesión
+ */
+
+/**
+ * DELETE /api/live/sessions/:id/messages/:messageId
+ * Headers: { Authorization: "Bearer <token>" }
+ * Response: ApiResponse<{ success: boolean }>
+ * 
+ * Eliminar mensaje del chat (solo moderadores/host)
+ */
+
+// ========================================
+// INSTRUCTORES
+// ========================================
+
+/**
+ * GET /api/instructors
+ * Query params: { search?: string, specialty?: string, sortBy?: 'rating' | 'students' | 'rate', page?: number }
+ * Response: PaginatedResponse<Instructor>
+ * 
+ * Directorio de instructores con filtros y búsqueda
+ */
+
+/**
+ * GET /api/instructors/:id
+ * Response: ApiResponse<Instructor>
+ * 
+ * Perfil completo de instructor específico
+ */
+
+/**
+ * GET /api/instructors/featured
+ * Response: ApiResponse<Instructor[]>
+ * 
+ * Instructores destacados para carousel en home/dashboard
+ */
+
+/**
+ * POST /api/instructors/:id/follow
+ * Headers: { Authorization: "Bearer <token>" }
+ * Response: ApiResponse<{ success: boolean }>
+ * 
+ * Seguir a un instructor
+ */
+
+/**
+ * DELETE /api/instructors/:id/follow
+ * Headers: { Authorization: "Bearer <token>" }
+ * Response: ApiResponse<{ success: boolean }>
+ * 
+ * Dejar de seguir a un instructor
+ */
+
+// ========================================
 // ESTADÍSTICAS GENERALES
 // ========================================
 
@@ -186,6 +297,7 @@
  * - Número total de cursos
  * - Número total de instructores
  * - Rating promedio
+ * - Sesiones live activas
  */
 
 // ========================================
@@ -194,10 +306,10 @@
 
 /**
  * GET /api/search
- * Query params: SearchParams
+ * Query params: SearchParams & { type?: 'products' | 'instructors' | 'live' }
  * Response: SearchResponse
  * 
- * Debe incluir productos + filtros disponibles para refinar búsqueda
+ * Búsqueda unificada que incluye productos, instructores y sesiones live
  */
 
 // ========================================
@@ -230,4 +342,25 @@
  *    - Integrar con Stripe para suscripciones
  *    - Webhooks para actualizar planes de usuario
  *    - Manejo de fallos y reintento de pagos
+ *    - Pagos individuales para sesiones live premium
+ * 
+ * 6. LIVE STREAMING:
+ *    - Integración con Agora.io para video/audio
+ *    - WebSocket server para chat en tiempo real
+ *    - Control de acceso basado en planes
+ *    - Sistema de moderación para chat
+ *    - Grabación opcional de sesiones
+ * 
+ * 7. INSTRUCTORES:
+ *    - Sistema de verificación de instructores
+ *    - Ratings y reviews de estudiantes
+ *    - Seguimiento de instructores favoritos
+ *    - Dashboard para gestión de sesiones
+ *    - Estadísticas de engagement
+ * 
+ * 8. WEBSOCKETS:
+ *    - Chat en tiempo real para live sessions
+ *    - Notificaciones push para nuevas sesiones
+ *    - Actualización de viewer count en tiempo real
+ *    - Estados de conexión de usuarios
  */

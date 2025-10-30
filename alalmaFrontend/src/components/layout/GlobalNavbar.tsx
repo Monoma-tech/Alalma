@@ -337,6 +337,19 @@ export function GlobalNavbar({
                       
                       <button
                         onClick={() => {
+                          router.push('/live/create')
+                          setIsProfileMenuOpen(false)
+                        }}
+                        className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
+                      >
+                        <span className="w-4 h-4 mr-3 bg-red-500 rounded-full flex items-center justify-center">
+                          <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                        </span>
+                        Iniciar Sesión Live
+                      </button>
+
+                      <button
+                        onClick={() => {
                           setUserRole('vendor')
                           router.push('/vendor/dashboard')
                           setIsProfileMenuOpen(false)
@@ -549,6 +562,19 @@ export function GlobalNavbar({
                       Cambiar Plan
                     </button>
                     
+                    <button
+                      onClick={() => {
+                        router.push('/live/create')
+                        setIsMobileMenuOpen(false)
+                      }}
+                      className="flex items-center w-full px-4 py-3 text-base text-red-600 hover:bg-red-50 rounded-lg cursor-pointer"
+                    >
+                      <span className="w-5 h-5 mr-3 bg-red-500 rounded-full flex items-center justify-center">
+                        <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                      </span>
+                      Iniciar Sesión Live
+                    </button>
+
                     <button
                       onClick={() => {
                         setUserRole('vendor')

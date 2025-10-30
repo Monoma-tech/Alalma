@@ -31,6 +31,7 @@ import { WisdomProductCardWithPlan } from '@/components/ecommerce/WisdomProductC
 import { SearchAndFilters } from '@/components/ecommerce/SearchAndFilters'
 import { ShoppingCartSidebar } from '@/components/ecommerce/ShoppingCart'
 import { FavoritesSidebar } from '@/components/ecommerce/FavoritesSidebar'
+import { InstructorCarousel } from '@/components/ecommerce/InstructorCarousel'
 import { mockProducts, type Product } from '@/data/products'
 import { useUserPlan } from '@/contexts/UserPlanContext'
 import { useUserRole } from '@/contexts/UserRoleContext'
@@ -81,7 +82,7 @@ export default function EcommercePage() {
   const [isPlanTooltipOpen, setIsPlanTooltipOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMenuClosing, setIsMenuClosing] = useState(false)
-  const [activeLivesCount, setActiveLivesCount] = useState(3) // Mock data - conectar con API después
+  const [activeLivesCount] = useState(3) // Mock data - conectar con API después
   const profileMenuRef = useRef<HTMLDivElement>(null)
   const planTooltipRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
@@ -840,6 +841,9 @@ export default function EcommercePage() {
           categories={categories}
           hideCategories={filters.categories.length > 0}
         />
+
+        {/* Instructors Carousel */}
+        <InstructorCarousel />
 
         {/* View Mode & Results Count */}
         <div className="flex justify-between items-center mb-6">

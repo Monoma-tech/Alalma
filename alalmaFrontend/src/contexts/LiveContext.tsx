@@ -353,9 +353,10 @@ export function LiveProvider({ children }: LiveProviderProps) {
     // Implementar toggle del chat
   }
 
-  const canAccessSession = (_session: LiveSession): boolean => {
+  const canAccessSession = (session: LiveSession): boolean => {
     // Aquí implementar lógica de acceso basada en plan del usuario
-    // Por ahora, acceso libre a todo
+    // Por ejemplo: verificar si el usuario tiene el plan requerido para el accessLevel
+    console.log('Checking access for session:', session.id)
     return true
   }
 

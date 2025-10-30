@@ -201,6 +201,19 @@ function VendorDashboard() {
                     
                     <button
                       onClick={() => {
+                        router.push('/live/create')
+                        setIsProfileMenuOpen(false)
+                      }}
+                      className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
+                    >
+                      <span className="w-4 h-4 mr-3 bg-red-500 rounded-full flex items-center justify-center">
+                        <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                      </span>
+                      Iniciar Sesión Live
+                    </button>
+                    
+                    <button
+                      onClick={() => {
                         router.push('/dashboard')
                         setIsProfileMenuOpen(false)
                       }}
@@ -294,6 +307,19 @@ function VendorDashboard() {
                         >
                           <Settings className="w-4 h-4 mr-3 text-gray-400" />
                           Mi Perfil
+                        </button>
+                        
+                        <button
+                          onClick={() => {
+                            router.push('/live/create')
+                            setIsProfileMenuOpen(false)
+                          }}
+                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
+                        >
+                          <span className="w-4 h-4 mr-3 bg-red-500 rounded-full flex items-center justify-center">
+                            <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                          </span>
+                          Iniciar Sesión Live
                         </button>
                         
                         <button

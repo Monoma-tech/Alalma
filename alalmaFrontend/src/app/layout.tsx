@@ -8,6 +8,9 @@ import { ContentApprovalProvider } from "@/contexts/ContentApprovalContext";
 import { EarningsProvider } from "@/contexts/EarningsContext";
 import { FavoritesCartProvider } from "@/contexts/FavoritesCartContext";
 import { LiveProvider } from "@/contexts/LiveContext";
+import { LivePermissionsProvider } from "@/contexts/LivePermissionsContext";
+import { FloatingLiveButton } from "@/components/live/FloatingLiveButton";
+import { LiveUpgradeModal } from "@/components/live/LiveUpgradeModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,7 +72,11 @@ export default function RootLayout({
                 <EarningsProvider>
                   <FavoritesCartProvider>
                     <LiveProvider>
-                      {children}
+                      <LivePermissionsProvider>
+                        {children}
+                        <FloatingLiveButton />
+                        <LiveUpgradeModal />
+                      </LivePermissionsProvider>
                     </LiveProvider>
                   </FavoritesCartProvider>
                 </EarningsProvider>
