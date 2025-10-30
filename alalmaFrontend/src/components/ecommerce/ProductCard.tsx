@@ -125,11 +125,11 @@ export function ProductCard({ product, onAddToCart, onAddToWishlist }: ProductCa
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="text-lg font-bold text-gray-900">
-              ${product.price.toLocaleString()}
+              ${product.price.toFixed(2)} USD
             </span>
             {product.originalPrice && (
               <span className="text-sm text-gray-500 line-through">
-                ${product.originalPrice.toLocaleString()}
+                ${product.originalPrice.toFixed(2)} USD
               </span>
             )}
           </div>

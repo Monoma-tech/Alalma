@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Crimson_Text, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { UserPlanProvider } from "@/contexts/UserPlanContext";
+import { UserRoleProvider } from "@/contexts/UserRoleContext";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ContentApprovalProvider } from "@/contexts/ContentApprovalContext";
+import { EarningsProvider } from "@/contexts/EarningsContext";
+import { FavoritesCartProvider } from "@/contexts/FavoritesCartContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,9 +18,37 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const crimsonText = Crimson_Text({
+  variable: "--font-isabel-light",
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: "--font-dolce-vita",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Alalma Sabiduría - Tu transformación espiritual",
+  metadataBase: new URL('https://alalma.com'),
+  title: "Alalma - Tu transformación espiritual",
   description: "Descubre cursos, terapias y herramientas para tu crecimiento espiritual y transformación personal",
+  openGraph: {
+    title: 'Alalma - Tu transformación espiritual',
+    description: 'Descubre cursos, terapias y herramientas para tu crecimiento espiritual y transformación personal',
+    images: ['/with_padding.png'],
+  }
 };
 
 export default function RootLayout({
@@ -24,13 +57,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${crimsonText.variable} ${playfairDisplay.variable} antialiased`}
       >
-        <UserPlanProvider>
-          {children}
-        </UserPlanProvider>
+        <AuthProvider>
+          <UserPlanProvider>
+            <UserRoleProvider>
+              <ContentApprovalProvider>
+                <EarningsProvider>
+                  <FavoritesCartProvider>
+                    {children}
+                  </FavoritesCartProvider>
+                </EarningsProvider>
+              </ContentApprovalProvider>
+            </UserRoleProvider>
+          </UserPlanProvider>
+        </AuthProvider>
       </body>
     </html>
   );

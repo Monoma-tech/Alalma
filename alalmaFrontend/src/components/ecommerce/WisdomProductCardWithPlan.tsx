@@ -14,9 +14,10 @@ interface WisdomProductCardProps {
   product: Product
   onAddToCart: (product: Product) => void
   onAddToWishlist: (product: Product) => void
+  isInWishlist?: boolean
 }
 
-export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlist }: WisdomProductCardProps) {
+export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlist, isInWishlist = false }: WisdomProductCardProps) {
   const router = useRouter()
   const { flyToCart } = useFlyToCart()
   const { canAccess } = useUserPlan()
@@ -70,31 +71,22 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
     }
   }
 
-  const getCategoryColor = (category: string) => {
-    if (!hasAccess) return 'bg-gray-100 text-gray-500'
-    
-    switch (category) {
-      case 'Cursos':
-        return 'bg-blue-100 text-blue-800'
-      case 'Terapias':
-        return 'bg-pink-100 text-pink-800'
-      case 'Herramientas':
-        return 'bg-purple-100 text-purple-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
+  const getCategoryColor = () => {
+    // Paleta azul suave para todas las categorías
+    return 'bg-slate-50 text-slate-600 border border-slate-200'
   }
 
   const getPlanBadgeInfo = () => {
+    // Paleta azul elegante y suave
     switch (product.accessLevel) {
       case 'free':
-        return { label: 'Gratis', color: 'bg-green-100 text-green-800', icon: '✨' }
+        return { label: 'Gratis', color: 'bg-sky-50 text-sky-700 border border-sky-200', icon: '✨' }
       case 'basic':
-        return { label: 'Buscador', color: 'bg-blue-100 text-blue-800', icon: '💙' }
+        return { label: 'Buscador', color: 'bg-blue-50 text-blue-700 border border-blue-200', icon: '🔍' }
       case 'intermediate':
-        return { label: 'Transformador', color: 'bg-purple-100 text-purple-800', icon: '💜' }
+        return { label: 'Transformador', color: 'bg-indigo-50 text-indigo-700 border border-indigo-200', icon: '🌟' }
       case 'premium':
-        return { label: 'Maestro', color: 'bg-yellow-100 text-yellow-800', icon: '👑' }
+        return { label: 'Maestro', color: 'bg-violet-50 text-violet-700 border border-violet-200', icon: '👑' }
     }
   }
 
@@ -128,7 +120,7 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
 
           {/* Included in Plan Badge */}
           {isIncludedInPlan && (
-            <div className="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold z-10 flex items-center gap-1">
+            <div className="absolute top-3 right-3 bg-emerald-500 text-white px-2 py-1 rounded-full text-xs font-semibold z-10 flex items-center gap-1">
               <Crown className="w-3 h-3" />
               Incluido
             </div>
@@ -142,7 +134,7 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
           )}
           
           {/* Category Badge */}
-          <div className={`absolute bottom-3 right-3 ${getCategoryColor(product.category)} px-2 py-1 rounded-full text-xs font-medium z-10 flex items-center gap-1`}>
+          <div className={`absolute bottom-3 right-3 ${getCategoryColor()} px-2 py-1 rounded-full text-xs font-medium z-10 flex items-center gap-1`}>
             {getCategoryIcon(product.category)}
             {product.category}
           </div>
@@ -155,7 +147,7 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
           )}
 
           {/* Product Image */}
-          <div className={`aspect-[4/3] bg-gradient-to-br from-purple-100 to-blue-100 relative overflow-hidden ${
+          <div className={`aspect-[4/3] bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden ${
             !hasAccess ? 'grayscale' : ''
           }`}>
             <Image 
@@ -168,19 +160,23 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
             />
             
             {/* Hover Actions */}
-            <div className={`absolute inset-0 bg-black/40 flex items-center justify-center gap-2 transition-opacity duration-300 ${
+            <div className={`absolute inset-0 bg-blue-900/20 flex items-center justify-center gap-2 transition-opacity duration-300 ${
               isHovered && hasAccess ? 'opacity-100' : 'opacity-0'
             }`}>
               <Button
                 size="sm"
                 variant="outline"
-                className="bg-white/90 hover:bg-white cursor-pointer transition-transform hover:scale-110"
+                className={`bg-white/95 hover:bg-white cursor-pointer shadow-lg ${
+                  isInWishlist 
+                    ? 'text-red-600 border-red-200 hover:border-red-300' 
+                    : 'text-blue-700 border-blue-200'
+                }`}
                 onClick={(e) => {
                   e.stopPropagation()
                   onAddToWishlist(product)
                 }}
               >
-                <Heart className="w-4 h-4" />
+                <Heart className={`w-4 h-4 ${isInWishlist ? 'fill-current' : ''}`} />
               </Button>
             </div>
           </div>
@@ -188,19 +184,27 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
 
         <CardContent className="p-4">
           {/* Product Name */}
-          <h3 className={`font-semibold mb-2 line-clamp-2 ${hasAccess ? 'text-gray-900' : 'text-gray-600'}`}>
+          <h3 className={`font-semibold mb-2 line-clamp-2 ${hasAccess ? 'text-slate-800' : 'text-slate-600'}`}>
             {product.name}
           </h3>
           
           {/* Duration and Instructor */}
-          <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
+          <div className="flex items-center justify-between text-sm text-slate-500 mb-3">
             <div className="flex items-center">
               <Clock className="w-4 h-4 mr-1" />
               <span>{product.duration}</span>
             </div>
             <div className="flex items-center">
               <User className="w-4 h-4 mr-1" />
-              <span className="truncate">{product.instructor}</span>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  router.push(`/instructor/${product.instructorId}`)
+                }}
+                className="truncate text-blue-600 hover:text-blue-700 hover:underline transition-colors cursor-pointer"
+              >
+                {product.instructor}
+              </button>
             </div>
           </div>
           
@@ -212,16 +216,16 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
                   key={i}
                   className={`w-3 h-3 ${
                     i < Math.floor(product.rating)
-                      ? hasAccess ? 'fill-yellow-400 text-yellow-400' : 'fill-gray-400 text-gray-400'
-                      : 'text-gray-300'
+                      ? hasAccess ? 'fill-amber-400 text-amber-400' : 'fill-slate-400 text-slate-400'
+                      : 'text-slate-300'
                   }`}
                 />
               ))}
             </div>
-            <span className={`text-sm font-medium ${hasAccess ? 'text-gray-900' : 'text-gray-600'}`}>
+            <span className={`text-sm font-medium ${hasAccess ? 'text-slate-700' : 'text-slate-600'}`}>
               {product.rating}
             </span>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-slate-500">
               ({product.reviews} reseñas)
             </span>
           </div>
@@ -230,17 +234,17 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               {isIncludedInPlan ? (
-                <span className="text-2xl font-bold text-green-600">
+                <span className="text-xl font-semibold text-emerald-600">
                   Incluido
                 </span>
               ) : (
                 <>
-                  <span className={`text-2xl font-bold ${hasAccess ? 'text-purple-600' : 'text-gray-500'}`}>
-                    ${(product.planPrice && hasAccess ? product.planPrice : product.price).toLocaleString()}
+                  <span className="text-xl font-semibold text-slate-800">
+                    ${(product.planPrice && hasAccess ? product.planPrice : product.price).toFixed(2)} USD
                   </span>
                   {product.originalPrice && hasAccess && (
-                    <span className="text-sm text-gray-500 line-through">
-                      ${product.originalPrice.toLocaleString()}
+                    <span className="text-sm text-slate-500 line-through">
+                      ${product.originalPrice.toFixed(2)} USD
                     </span>
                   )}
                 </>
@@ -251,13 +255,7 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
           {/* Action Button */}
           <Button
             ref={buttonRef}
-            className={`w-full transition-all duration-200 hover:scale-105 ${
-              !hasAccess 
-                ? 'bg-gray-600 hover:bg-gray-700 text-white cursor-pointer'
-                : isIncludedInPlan
-                ? 'bg-green-600 hover:bg-green-700 cursor-pointer'
-                : 'bg-purple-600 hover:bg-purple-700 cursor-pointer'
-            }`}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={handleAddToCart}
             disabled={!product.inStock && hasAccess}
           >

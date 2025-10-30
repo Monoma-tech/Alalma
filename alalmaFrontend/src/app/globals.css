@@ -2,25 +2,142 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --foreground: #111111;
+  
+  /* Colores oficiales de Alalma */
+  --alalma-purple: #6e5dad;
+  --alalma-black: #111111;
+  --alalma-white: #ffffff;
+  
+  /* Fuentes de Alalma - Usando Google Fonts via link en layout */
+  --font-isabel-light: 'Crimson Text', serif; /* Simulando Isabel Light */
+  --font-dolce-vita: 'Playfair Display', serif; /* Simulando Dolce Vita Heavy Bold */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #111111;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Clases utilitarias para las fuentes de Alalma */
+.font-isabel-light {
+  font-family: var(--font-isabel-light);
+  font-weight: 400;
+}
+
+.font-dolce-vita {
+  font-family: var(--font-dolce-vita);
+  font-weight: 700;
+}
+
+/* Colores de marca */
+.text-alalma-purple {
+  color: var(--alalma-purple);
+}
+
+.bg-alalma-purple {
+  background-color: var(--alalma-purple);
+}
+
+.text-alalma-black {
+  color: var(--alalma-black);
+}
+
+.bg-alalma-black {
+  background-color: var(--alalma-black);
+}
+
+.border-alalma-purple {
+  border-color: var(--alalma-purple);
+}
+
+.hover\:bg-alalma-purple:hover {
+  background-color: var(--alalma-purple);
+}
+
+.hover\:text-alalma-purple:hover {
+  color: var(--alalma-purple);
+}
+
+/* Animaciones para el menú móvil */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.4s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.2s ease-in forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.2s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+/* Mejoras de hover para elementos interactivos */
+.hover-lift {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

@@ -43,8 +43,8 @@ export const availablePlans: PlanDetails[] = [
   {
     level: 'basic',
     name: 'Buscador',
-    price: 29900,
-    yearlyPrice: 299000,
+    price: 7.99,
+    yearlyPrice: 79.99,
     monthlyCredits: 3,
     features: [
       '3 cursos por mes',
@@ -58,8 +58,8 @@ export const availablePlans: PlanDetails[] = [
   {
     level: 'intermediate',
     name: 'Transformador',
-    price: 49900,
-    yearlyPrice: 499000,
+    price: 12.99,
+    yearlyPrice: 129.99,
     monthlyCredits: 999, // Ilimitado
     features: [
       'Cursos ilimitados',
@@ -76,8 +76,8 @@ export const availablePlans: PlanDetails[] = [
   {
     level: 'premium',
     name: 'Maestro',
-    price: 89900,
-    yearlyPrice: 899000,
+    price: 24.99,
+    yearlyPrice: 249.99,
     monthlyCredits: 999, // Ilimitado
     features: [
       'Todo lo anterior',
@@ -123,5 +123,5 @@ export const getPlanColor = (level: PlanLevel): string => {
 }
 
 export const formatPrice = (price: number): string => {
-  return price === 0 ? 'Gratis' : `$${price.toLocaleString()}`
+  return price === 0 ? 'Gratis' : `$${price.toFixed(2)} USD`
 }

@@ -18,10 +18,12 @@ import {
 import { findProductById, getCategoryIcon, getCategoryName } from '@/data/products'
 
 interface ProductDetailProps {
-  productId: string
+  productId: string;
+  isInWishlist?: boolean;
+  onAddToWishlist?: () => void;
 }
 
-export function ProductDetail({ productId }: ProductDetailProps) {
+export function ProductDetail({ productId, isInWishlist = false, onAddToWishlist }: ProductDetailProps) {
   const router = useRouter()
   const product = findProductById(productId)
   const [activeTab, setActiveTab] = useState<'overview' | 'modules' | 'instructor'>('overview')
@@ -52,8 +54,12 @@ export function ProductDetail({ productId }: ProductDetailProps) {
   }
 
   const handleAddToWishlist = () => {
-    // TODO: Implementar lógica de wishlist
-    console.log('Agregado a favoritos:', product)
+    if (onAddToWishlist) {
+      onAddToWishlist()
+    } else {
+      // Fallback si no se pasa la función
+      console.log('Agregado a favoritos:', product)
+    }
   }
 
   return (
@@ -63,8 +69,16 @@ export function ProductDetail({ productId }: ProductDetailProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <Sparkles className="w-8 h-8 text-purple-600 mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">Alalma Sabiduría</h1>
+              <Image 
+                src="/with_padding.png" 
+                alt="Alalma Sabiduría" 
+                width={200}
+                height={53}
+                className="h-12 w-auto cursor-pointer"
+                onClick={() => router.push('/')}
+                priority
+                quality={95}
+              />
             </div>
             
             <Button 
@@ -83,8 +97,8 @@ export function ProductDetail({ productId }: ProductDetailProps) {
         {/* Breadcrumb Espiritual Extendido */}
         <div className="flex items-center mb-8 text-sm text-gray-600">
           <button 
-            onClick={() => router.push('/welcome')}
-            className="flex items-center hover:text-purple-600 transition-colors"
+            onClick={() => router.push('/categories')}
+            className="flex items-center hover:text-purple-600 transition-colors cursor-pointer"
           >
             <Sparkles className="w-4 h-4 mr-1" />
             Mi Camino
@@ -92,7 +106,7 @@ export function ProductDetail({ productId }: ProductDetailProps) {
           <span className="mx-2">{'>'}</span>
           <button
             onClick={() => router.push(`/dashboard?category=${product.category.toLowerCase()}`)}
-            className="flex items-center hover:text-purple-600 transition-colors"
+            className="flex items-center hover:text-purple-600 transition-colors cursor-pointer"
           >
             <span className="mr-1">{getCategoryIcon(product.category)}</span>
             {getCategoryName(product.category)}
@@ -120,7 +134,7 @@ export function ProductDetail({ productId }: ProductDetailProps) {
                   <button
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
-                    className={`aspect-square bg-gray-200 rounded-lg overflow-hidden border-2 transition-all ${
+                    className={`aspect-square bg-gray-200 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
                       selectedImageIndex === index ? 'border-purple-600' : 'border-transparent'
                     }`}
                   >
@@ -180,11 +194,11 @@ export function ProductDetail({ productId }: ProductDetailProps) {
               )}
               <div className="flex items-center gap-3">
                 <span className="text-3xl font-bold text-gray-900">
-                  ${product.price.toLocaleString()}
+                  ${product.price.toFixed(2)} USD
                 </span>
                 {product.originalPrice && (
                   <span className="text-xl text-gray-500 line-through">
-                    ${product.originalPrice.toLocaleString()}
+                    ${product.originalPrice.toFixed(2)} USD
                   </span>
                 )}
               </div>
@@ -198,7 +212,12 @@ export function ProductDetail({ productId }: ProductDetailProps) {
               </div>
               <div className="flex items-center text-gray-600">
                 <Users className="w-5 h-5 mr-2" />
-                <span>{product.instructor}</span>
+                <button
+                  onClick={() => router.push(`/instructor/${product.instructorId}`)}
+                  className="text-blue-600 hover:text-blue-700 hover:underline transition-colors cursor-pointer"
+                >
+                  {product.instructor}
+                </button>
               </div>
             </div>
 
@@ -221,11 +240,15 @@ export function ProductDetail({ productId }: ProductDetailProps) {
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full cursor-pointer transition-all duration-200 hover:scale-105"
+                className={`w-full cursor-pointer transition-all duration-200 hover:scale-105 ${
+                  isInWishlist 
+                    ? 'border-red-200 text-red-600 hover:border-red-300 hover:bg-red-50' 
+                    : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                }`}
                 onClick={handleAddToWishlist}
               >
-                <Heart className="w-5 h-5 mr-2" />
-                Agregar a Favoritos
+                <Heart className={`w-5 h-5 mr-2 ${isInWishlist ? 'fill-current text-red-500' : ''}`} />
+                {isInWishlist ? 'En Favoritos' : 'Agregar a Favoritos'}
               </Button>
             </div>
 
@@ -256,7 +279,7 @@ export function ProductDetail({ productId }: ProductDetailProps) {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab as 'overview' | 'modules' | 'instructor')}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  className={`py-4 px-1 border-b-2 font-medium text-sm cursor-pointer ${
                     activeTab === tab
                       ? 'border-purple-600 text-purple-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -298,17 +321,26 @@ export function ProductDetail({ productId }: ProductDetailProps) {
             )}
 
             {activeTab === 'instructor' && (
-              <div className="flex items-start space-x-6">
-                <div className="w-24 h-24 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center">
-                  <span className="text-2xl font-bold text-white">
-                    {product.instructor.split(' ').map(n => n[0]).join('')}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{product.instructor}</h3>
-                  <p className="text-gray-700">
-                    Especialista en {product.category.toLowerCase()} con años de experiencia ayudando a personas en su camino de transformación espiritual.
-                  </p>
+              <div className="space-y-6">
+                <div className="flex items-start space-x-6">
+                  <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                    <span className="text-2xl font-bold text-white">
+                      {product.instructor.split(' ').map(n => n[0]).join('')}
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-slate-800 mb-2">{product.instructor}</h3>
+                    <p className="text-slate-600 mb-4">
+                      Especialista en {product.category.toLowerCase()} con años de experiencia ayudando a personas en su camino de transformación espiritual. Conoce más sobre su trayectoria, otros cursos y su enfoque único.
+                    </p>
+                    <Button
+                      onClick={() => router.push(`/instructor/${product.instructorId}`)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+                    >
+                      <Users className="w-4 h-4 mr-2" />
+                      Ver perfil completo del instructor
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
