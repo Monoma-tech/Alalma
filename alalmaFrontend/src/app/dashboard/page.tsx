@@ -47,7 +47,8 @@ import {
   UserCircle,
   Search,
   Menu,
-  X
+  X,
+  Radio
 } from 'lucide-react'
 
 interface CartItem {
@@ -80,6 +81,7 @@ export default function EcommercePage() {
   const [isPlanTooltipOpen, setIsPlanTooltipOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMenuClosing, setIsMenuClosing] = useState(false)
+  const [activeLivesCount, setActiveLivesCount] = useState(3) // Mock data - conectar con API después
   const profileMenuRef = useRef<HTMLDivElement>(null)
   const planTooltipRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
@@ -336,6 +338,26 @@ export default function EcommercePage() {
 
             {/* Navegación derecha */}
             <div className="flex items-center space-x-3">
+              {/* Botón Live */}
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => router.push('/live')}
+                className="relative cursor-pointer hover-glow group"
+              >
+                <div className="flex items-center space-x-2">
+                  <Radio className="w-5 h-5 text-red-500 animate-pulse" />
+                  <span className="text-sm font-medium text-gray-700 group-hover:text-red-600 transition-colors duration-200">
+                    Live
+                  </span>
+                  {activeLivesCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-bounce-in font-semibold">
+                      {activeLivesCount > 9 ? '9+' : activeLivesCount}
+                    </span>
+                  )}
+                </div>
+              </Button>
+
               {/* Indicador del plan actual con tooltip */}
               <div className="relative" ref={planTooltipRef}>
                 <button
@@ -630,7 +652,27 @@ export default function EcommercePage() {
                   </div>
 
                   {/* Quick Actions */}
-                  <div className="grid grid-cols-2 gap-4 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+                  <div className="grid grid-cols-3 gap-3 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => {
+                        router.push('/live')
+                        closeMobileMenu()
+                      }}
+                      className="flex flex-col items-center p-4 cursor-pointer bg-gradient-to-br from-red-50 to-red-100 hover:from-red-100 hover:to-red-200 rounded-2xl transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+                    >
+                      <div className="relative">
+                        <Radio className="w-7 h-7 text-red-700 animate-pulse" />
+                        {activeLivesCount > 0 && (
+                          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold shadow-lg">
+                            {activeLivesCount > 9 ? '9+' : activeLivesCount}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-xs text-red-800 mt-2 font-semibold">Live</span>
+                    </Button>
+
                     <Button 
                       variant="ghost" 
                       size="sm"
@@ -638,17 +680,17 @@ export default function EcommercePage() {
                         setIsCartOpen(true)
                         closeMobileMenu()
                       }}
-                      className="flex flex-col items-center p-6 cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 rounded-2xl transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+                      className="flex flex-col items-center p-4 cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 rounded-2xl transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
                     >
                       <div className="relative">
-                        <ShoppingCart className="w-8 h-8 text-purple-700" />
+                        <ShoppingCart className="w-7 h-7 text-purple-700" />
                         {cartItemCount > 0 && (
-                          <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-semibold shadow-lg">
+                          <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold shadow-lg">
                             {cartItemCount > 9 ? '9+' : cartItemCount}
                           </span>
                         )}
                       </div>
-                      <span className="text-sm text-purple-800 mt-3 font-semibold">Carrito</span>
+                      <span className="text-xs text-purple-800 mt-2 font-semibold">Carrito</span>
                     </Button>
                     
                     <Button 
@@ -658,17 +700,17 @@ export default function EcommercePage() {
                         setIsFavoritesOpen(true)
                         closeMobileMenu()
                       }}
-                      className="flex flex-col items-center p-6 cursor-pointer bg-gradient-to-br from-pink-50 to-pink-100 hover:from-pink-100 hover:to-pink-200 rounded-2xl transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+                      className="flex flex-col items-center p-4 cursor-pointer bg-gradient-to-br from-pink-50 to-pink-100 hover:from-pink-100 hover:to-pink-200 rounded-2xl transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
                     >
                       <div className="relative">
-                        <Heart className="w-8 h-8 text-pink-700" />
+                        <Heart className="w-7 h-7 text-pink-700" />
                         {wishlist.length > 0 && (
-                          <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-semibold shadow-lg">
+                          <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold shadow-lg">
                             {wishlist.length > 9 ? '9+' : wishlist.length}
                           </span>
                         )}
                       </div>
-                      <span className="text-sm text-pink-800 mt-3 font-semibold">Favoritos</span>
+                      <span className="text-xs text-pink-800 mt-2 font-semibold">Favoritos</span>
                     </Button>
                   </div>
 

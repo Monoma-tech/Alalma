@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ContentApprovalProvider } from "@/contexts/ContentApprovalContext";
 import { EarningsProvider } from "@/contexts/EarningsContext";
 import { FavoritesCartProvider } from "@/contexts/FavoritesCartContext";
+import { LiveProvider } from "@/contexts/LiveContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -67,7 +68,9 @@ export default function RootLayout({
               <ContentApprovalProvider>
                 <EarningsProvider>
                   <FavoritesCartProvider>
-                    {children}
+                    <LiveProvider>
+                      {children}
+                    </LiveProvider>
                   </FavoritesCartProvider>
                 </EarningsProvider>
               </ContentApprovalProvider>

@@ -196,11 +196,42 @@ body {
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 5px rgba(139, 92, 246, 0.3);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
   }
   50% {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+    opacity: 0.8;
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
   }
+}
+
+/* Clases de utilidad adicionales para componentes */
+.card-enhanced {
+  @apply transition-all duration-300 ease-out;
+}
+
+.hover-lift {
+  @apply transition-transform duration-300 ease-out hover:-translate-y-1;
+}
+
+.hover-lift-strong {
+  @apply transition-transform duration-300 ease-out hover:-translate-y-2;
+}
+
+.hover-scale {
+  @apply transition-transform duration-300 ease-out hover:scale-105;
+}
+
+.input-enhanced {
+  @apply transition-all duration-300;
+}
+
+.btn-animated {
+  @apply transition-all duration-300 transform hover:scale-105;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Clases de animación */
