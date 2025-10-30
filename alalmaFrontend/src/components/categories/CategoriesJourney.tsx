@@ -24,7 +24,7 @@ interface JourneyCardProps {
 
 function JourneyCard({ icon, title, description, color, category, count, onClick }: JourneyCardProps) {
   return (
-    <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 shadow-lg">
+    <Card className="group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 shadow-lg">
       <CardContent className="p-8">
         <div className={`w-16 h-16 ${color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
           {icon}
@@ -42,7 +42,7 @@ function JourneyCard({ icon, title, description, color, category, count, onClick
         </div>
         
         <Button 
-          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0 shadow-md"
+          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0 shadow-md cursor-pointer"
           onClick={onClick}
         >
           Explorar {category}
@@ -53,7 +53,7 @@ function JourneyCard({ icon, title, description, color, category, count, onClick
   )
 }
 
-export function WelcomeJourney() {
+export function CategoriesJourney() {
   const router = useRouter()
 
   const journeyCards = [
@@ -92,15 +92,6 @@ export function WelcomeJourney() {
       category: "Todo",
       count: 8,
       onClick: () => router.push('/dashboard')
-    },
-    {
-      icon: <Star className="w-8 h-8 text-white" />,
-      title: "Planes de Membresía",
-      description: "Desbloquea todo tu potencial con acceso completo a cursos, terapias y contenido exclusivo según tu nivel.",
-      color: "bg-gradient-to-br from-pink-500 to-pink-600",
-      category: "Planes",
-      count: 4,
-      onClick: () => router.push('/plans')
     }
   ]
 
@@ -110,7 +101,7 @@ export function WelcomeJourney() {
       <div className="container mx-auto px-6 pt-12 pb-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-            Bienvenido a tu Transformación
+            Categorías
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Elige el camino que resuene con tu alma. Cada senda te llevará a descubrir nuevas dimensiones de sabiduría y crecimiento espiritual.
@@ -129,7 +120,7 @@ export function WelcomeJourney() {
           <div className="mb-6">
             <Button
               variant="outline"
-              className="border-purple-200 text-purple-700 hover:bg-purple-50"
+              className="border-purple-200 text-purple-700 hover:bg-purple-50 cursor-pointer"
               onClick={() => router.push('/dashboard')}
             >
               <Compass className="w-4 h-4 mr-2" />

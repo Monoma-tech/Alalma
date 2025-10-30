@@ -36,19 +36,19 @@ export function ShoppingCartSidebar({
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/50 z-40"
+        className="fixed inset-0 bg-black/50 z-40 animate-fade-in"
         onClick={onClose}
       />
       
       {/* Sidebar */}
-      <div className="fixed right-0 top-0 h-full w-96 bg-white shadow-xl z-50 flex flex-col">
+      <div className="fixed right-0 top-0 h-full w-96 bg-white shadow-xl z-50 flex flex-col animate-slide-in-right">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center gap-2">
             <ShoppingCart className="w-5 h-5" />
             <h2 className="font-semibold">Mi Camino ({itemCount})</h2>
           </div>
-          <Button variant="ghost" size="sm" onClick={onClose}>
+          <Button variant="ghost" size="sm" onClick={onClose} className="cursor-pointer hover-rotate">
             <X className="w-4 h-4" />
           </Button>
         </div>
@@ -61,9 +61,9 @@ export function ShoppingCartSidebar({
               <p className="text-gray-500">Aún no has elegido tu camino</p>
             </div>
           ) : (
-            <div className="space-y-4">
-              {items.map((item) => (
-                <div key={item.id} className="flex gap-3 p-3 border rounded-lg">
+            <div className="space-y-4 stagger-animation">
+              {items.map((item, index) => (
+                <div key={item.id} className="flex gap-3 p-3 border rounded-lg hover-lift card-enhanced" style={{ animationDelay: `${index * 0.1}s` }}>
                   {/* Product Image */}
                   <div className="w-16 h-16 bg-gray-200 rounded flex-shrink-0 relative overflow-hidden">
                     <Image 
@@ -92,16 +92,16 @@ export function ShoppingCartSidebar({
                         size="sm"
                         onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
                         disabled={item.quantity <= 1}
-                        className="w-8 h-8 p-0"
+                        className="w-8 h-8 p-0 cursor-pointer hover-scale"
                       >
                         <Minus className="w-3 h-3" />
                       </Button>
-                      <span className="w-8 text-center text-sm">{item.quantity}</span>
+                      <span className="w-8 text-center text-sm font-medium animate-fade-in-scale">{item.quantity}</span>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                        className="w-8 h-8 p-0"
+                        className="w-8 h-8 p-0 cursor-pointer"
                       >
                         <Plus className="w-3 h-3" />
                       </Button>
@@ -109,7 +109,7 @@ export function ShoppingCartSidebar({
                         variant="ghost"
                         size="sm"
                         onClick={() => onRemoveItem(item.id)}
-                        className="ml-auto text-red-500 hover:text-red-700"
+                        className="ml-auto text-red-500 hover:text-red-700 cursor-pointer"
                       >
                         <X className="w-4 h-4" />
                       </Button>
@@ -131,12 +131,12 @@ export function ShoppingCartSidebar({
             </div>
             
             {/* Checkout Button */}
-            <Button className="w-full bg-purple-600 hover:bg-purple-700" onClick={onCheckout}>
+            <Button className="w-full bg-purple-600 hover:bg-purple-700 cursor-pointer" onClick={onCheckout}>
               Comenzar mi Transformación
             </Button>
             
             {/* Continue Shopping */}
-            <Button variant="outline" className="w-full" onClick={onClose}>
+            <Button variant="outline" className="w-full cursor-pointer" onClick={onClose}>
               Continuar Explorando
             </Button>
           </div>

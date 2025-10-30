@@ -38,7 +38,7 @@ export function FavoritesSidebar({
             <Heart className="w-5 h-5 text-pink-500 fill-current" />
             <h2 className="font-semibold">Mis Favoritos ({items.length})</h2>
           </div>
-          <Button variant="ghost" size="sm" onClick={onClose}>
+          <Button variant="ghost" size="sm" onClick={onClose} className="cursor-pointer">
             <X className="w-4 h-4" />
           </Button>
         </div>
@@ -59,7 +59,7 @@ export function FavoritesSidebar({
               <Button 
                 variant="outline" 
                 onClick={onClose}
-                className="text-purple-600 border-purple-200 hover:bg-purple-50"
+                className="text-purple-600 border-purple-200 hover:bg-purple-50 cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
                 Continuar explorando
@@ -122,7 +122,7 @@ export function FavoritesSidebar({
                         variant="ghost"
                         size="sm"
                         onClick={() => onRemoveItem(item.id)}
-                        className="text-gray-400 hover:text-red-500 p-1"
+                        className="text-gray-400 hover:text-red-500 p-1 cursor-pointer"
                       >
                         <X className="w-4 h-4" />
                       </Button>
@@ -134,7 +134,7 @@ export function FavoritesSidebar({
                         size="sm"
                         onClick={() => onAddToCart(item)}
                         disabled={!item.inStock}
-                        className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
+                        className="flex-1 bg-purple-600 hover:bg-purple-700 text-white cursor-pointer"
                       >
                         <ShoppingCart className="w-3 h-3 mr-1" />
                         {item.inStock ? 'Al Carrito' : 'Agotado'}
@@ -156,7 +156,7 @@ export function FavoritesSidebar({
             </div>
             
             <Button
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer"
               onClick={onMoveAllToCart}
               disabled={items.filter(item => item.inStock).length === 0}
             >
@@ -166,7 +166,7 @@ export function FavoritesSidebar({
             
             <Button
               variant="outline"
-              className="w-full text-gray-600 border-gray-300 hover:bg-gray-100"
+              className="w-full text-gray-600 border-gray-300 hover:bg-gray-100 cursor-pointer"
               onClick={onClose}
             >
               Continuar explorando

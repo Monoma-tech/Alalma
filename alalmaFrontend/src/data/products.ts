@@ -10,6 +10,7 @@ export interface Product {
   inStock: boolean
   duration: string
   instructor: string
+  instructorId: number
   description?: string
   modules?: string[]
   features?: string[]
@@ -23,18 +24,19 @@ export const mockProducts: Product[] = [
   {
     id: 1,
     name: 'Mindfulness y Meditación Profunda',
-    price: 89000,
-    originalPrice: 129000,
+    price: 22.25,
+    originalPrice: 32.25,
     image: 'https://images.unsplash.com/photo-1545389336-cf090694435e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
     rating: 4.9,
     reviews: 1247,
     category: 'Cursos',
     inStock: true,
     duration: '8 semanas',
-    instructor: 'Dra. Ana Martínez',
+    instructor: 'María Luna',
+    instructorId: 1,
     accessLevel: 'free',
-    isIncludedInPlan: true,
-    description: 'Sumérgete en la práctica transformadora del mindfulness y la meditación. Este curso completo te guiará desde los fundamentos hasta técnicas avanzadas, ayudándote a cultivar una mente clara, un corazón abierto y una presencia profunda en tu vida diaria.',
+    isIncludedInPlan: false,
+    description: 'Descubre la paz interior a través de técnicas milenarias de mindfulness y meditación guiada.',
     modules: [
       'Fundamentos de Mindfulness',
       'Técnicas de Respiración Consciente',
@@ -62,16 +64,17 @@ export const mockProducts: Product[] = [
   {
     id: 2,
     name: 'Terapia de Sanación Emocional',
-    price: 150000,
+    price: 37.50,
     image: 'https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
     rating: 4.8,
     reviews: 523,
     category: 'Terapias',
     inStock: true,
     duration: '12 sesiones',
-    instructor: 'Psic. Carlos Ruiz',
+    instructor: 'Carlos Viento',
+    instructorId: 2,
     accessLevel: 'basic',
-    planPrice: 75000,
+    planPrice: 29.99,
     description: 'Un proceso terapéutico profundo diseñado para sanar heridas emocionales, liberar bloqueos energéticos y restaurar tu bienestar interior. Combina técnicas modernas de psicología con sabiduría ancestral.',
     modules: [
       'Evaluación inicial personalizada',
@@ -92,15 +95,16 @@ export const mockProducts: Product[] = [
   {
     id: 3,
     name: 'Kit de Cristales para Equilibrio Energético',
-    price: 75000,
-    originalPrice: 95000,
+    price: 18.75,
+    originalPrice: 23.75,
     image: 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
     rating: 4.7,
     reviews: 892,
     category: 'Herramientas',
     inStock: false,
     duration: 'Uso diario',
-    instructor: 'Guía incluida',
+    instructor: 'Luna Cristal',
+    instructorId: 3,
     accessLevel: 'basic',
     description: 'Conjunto cuidadosamente seleccionado de cristales sagrados para equilibrar tus chakras, purificar tu energía y elevar tu vibración. Cada cristal ha sido energéticamente limpiado y programado.',
     features: [
@@ -114,14 +118,15 @@ export const mockProducts: Product[] = [
   {
     id: 4,
     name: 'Curso de Astrología y Autoconocimiento',
-    price: 120000,
+    price: 30.00,
     image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
     rating: 4.6,
     reviews: 367,
     category: 'Cursos',
     inStock: true,
     duration: '10 semanas',
-    instructor: 'Astróloga Luna Vera',
+    instructor: 'Sofía Estrella',
+    instructorId: 4,
     accessLevel: 'intermediate',
     isIncludedInPlan: true,
     description: 'Descubre los secretos de tu carta natal y aprende a interpretar el lenguaje de las estrellas. Este curso te llevará en un viaje de autoconocimiento profundo a través de la sabiduría astrológica.',
@@ -146,15 +151,16 @@ export const mockProducts: Product[] = [
   {
     id: 5,
     name: 'Terapia de Reiki y Sanación Energética',
-    price: 180000,
-    originalPrice: 220000,
+    price: 45.00,
+    originalPrice: 55.00,
     image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
     rating: 4.9,
     reviews: 756,
     category: 'Terapias',
     inStock: true,
     duration: '6 sesiones',
-    instructor: 'Maestra Rosa Silva',
+    instructor: 'Carlos Viento',
+    instructorId: 2,
     accessLevel: 'intermediate',
     isIncludedInPlan: true,
     description: 'Experimenta la poderosa energía universal del Reiki en sesiones diseñadas para restaurar tu equilibrio energético, sanar a nivel celular y activar tus capacidades de auto-sanación.',
@@ -177,14 +183,15 @@ export const mockProducts: Product[] = [
   {
     id: 6,
     name: 'Oracle Cards - Mensajes del Alma',
-    price: 45000,
+    price: 11.25,
     image: 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
     rating: 4.5,
     reviews: 1134,
     category: 'Herramientas',
     inStock: true,
     duration: 'Consulta diaria',
-    instructor: 'Manual incluido',
+    instructor: 'Sofía Estrella',
+    instructorId: 4,
     accessLevel: 'free',
     isIncludedInPlan: true,
     description: 'Baraja de oracle cards canalizada especialmente para conectarte con la sabiduría de tu alma. Cada carta contiene mensajes profundos y guía espiritual para tu camino de evolución.',
@@ -200,14 +207,15 @@ export const mockProducts: Product[] = [
   {
     id: 7,
     name: 'Despertar Espiritual - Camino Interior',
-    price: 200000,
+    price: 50.00,
     image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
     rating: 5.0,
     reviews: 445,
     category: 'Cursos',
     inStock: true,
     duration: '16 semanas',
-    instructor: 'Maestro Gabriel Luz',
+    instructor: 'Gabriel Luz',
+    instructorId: 5,
     accessLevel: 'premium',
     isIncludedInPlan: true,
     description: 'Un profundo viaje de transformación personal que te guiará a través del despertar de tu consciencia superior. Descubre tu verdadero propósito y conecta con tu esencia divina.',
@@ -233,15 +241,16 @@ export const mockProducts: Product[] = [
   {
     id: 8,
     name: 'Aromaterapia Terapéutica Completa',
-    price: 95000,
-    originalPrice: 115000,
+    price: 23.75,
+    originalPrice: 28.75,
     image: 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
     rating: 4.7,
     reviews: 623,
     category: 'Herramientas',
     inStock: true,
     duration: 'Kit completo',
-    instructor: 'Terapeuta María Flor',
+    instructor: 'Elena Aroma',
+    instructorId: 6,
     accessLevel: 'basic',
     description: 'Kit completo de aceites esenciales terapéuticos de grado médico, seleccionados para equilibrar cuerpo, mente y espíritu. Incluye difusor ultrasónico y guía completa de uso.',
     features: [
@@ -275,4 +284,8 @@ export const getCategoryName = (category: string) => {
 
 export const findProductById = (id: string): Product | undefined => {
   return mockProducts.find(product => product.id === parseInt(id))
+}
+
+export const formatProductPrice = (price: number): string => {
+  return `$${price.toFixed(2)} USD`
 }
