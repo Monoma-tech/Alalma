@@ -51,12 +51,12 @@ export function SearchAndFilters({
           <Button
             variant="outline"
             onClick={() => setShowFilters(!showFilters)}
-            className="border-gray-300 cursor-pointer"
+            className="border-gray-300 cursor-pointer hover-lift transition-all duration-300 group"
           >
-            <Filter className="w-4 h-4 mr-2" />
+            <Filter className={`w-4 h-4 mr-2 transition-all duration-300 ${showFilters ? 'rotate-180' : ''} group-hover:scale-110`} />
             Filtros
             {activeFiltersCount > 0 && (
-              <span className="ml-2 bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-xs">
+              <span className="ml-2 bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-xs animate-bounce-in transition-all duration-300 hover:bg-purple-200">
                 {activeFiltersCount}
               </span>
             )}
@@ -64,10 +64,11 @@ export function SearchAndFilters({
           
           {filters.categories.length > 0 && (
             <div className="flex gap-2 flex-wrap">
-              {filters.categories.map((category) => (
+              {filters.categories.map((category, index) => (
                 <span
                   key={category}
-                  className="inline-flex items-center gap-1 bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm"
+                  className="inline-flex items-center gap-1 bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm animate-fade-in-scale hover:bg-purple-200 transition-all duration-300 hover-scale group"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   {category}
                   <button
@@ -75,7 +76,7 @@ export function SearchAndFilters({
                       ...filters,
                       categories: filters.categories.filter(c => c !== category)
                     })}
-                    className="hover:text-purple-900 cursor-pointer"
+                    className="hover:text-purple-900 cursor-pointer transition-all duration-200 hover:scale-125 group-hover:rotate-90"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -98,15 +99,15 @@ export function SearchAndFilters({
       </div>
 
       {showFilters && (
-        <Card>
+        <Card className="animate-fade-in-scale card-enhanced">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg">Filtros</CardTitle>
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" onClick={clearFilters} className="cursor-pointer">
+                <Button variant="ghost" size="sm" onClick={clearFilters} className="cursor-pointer hover-scale">
                   Limpiar
                 </Button>
-                <Button variant="ghost" size="sm" onClick={() => setShowFilters(false)} className="cursor-pointer">
+                <Button variant="ghost" size="sm" onClick={() => setShowFilters(false)} className="cursor-pointer hover-rotate">
                   <X className="w-4 h-4" />
                 </Button>
               </div>

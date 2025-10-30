@@ -10,10 +10,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'default', size = 'default', loading = false, children, disabled, ...props }, ref) => {
     const variants = {
-      default: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-      outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500',
-      ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-blue-500',
-      destructive: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500'
+      default: 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 focus:ring-blue-500 shadow-sm hover:shadow-md',
+      outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 focus:ring-blue-500 hover:shadow-sm',
+      ghost: 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:ring-blue-500',
+      destructive: 'bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 focus:ring-red-500 shadow-sm hover:shadow-md'
     }
 
     const sizes = {
@@ -25,9 +25,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          'inline-flex items-center justify-center rounded-md font-medium transition-colors',
+          'inline-flex items-center justify-center rounded-md font-medium',
+          'transition-all duration-300 ease-out transform',
+          'hover:scale-105 active:scale-95',
           'focus:outline-none focus:ring-2 focus:ring-offset-2',
-          'disabled:pointer-events-none disabled:opacity-50',
+          'disabled:pointer-events-none disabled:opacity-50 disabled:hover:scale-100',
+          'relative overflow-hidden',
           variants[variant],
           sizes[size],
           className

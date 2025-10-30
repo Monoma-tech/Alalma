@@ -481,17 +481,18 @@ export default function Home() {
               - GET /api/products?category=X (categoría activa)
               - POST /api/cart/add (agregar al carrito)
           */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 stagger-animation">
             {coursesByCategory[activeTab].map((course) => (
-              <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="bg-gradient-to-br from-purple-100 to-purple-200 h-32 flex items-center justify-center">
-                  <span className="text-4xl">{course.icon}</span>
+              <Card key={course.id} className="overflow-hidden card-enhanced hover-lift-strong">
+                <div className="bg-gradient-to-br from-purple-100 to-purple-200 h-32 flex items-center justify-center relative group">
+                  <span className="text-4xl animate-float hover-scale transition-transform duration-300">{course.icon}</span>
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-200/50 to-purple-300/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <CardContent className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-purple-700 transition-colors duration-200">
                     {course.name}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-2">{course.instructor}</p>
+                  <p className="text-sm text-gray-600 mb-2 hover:text-purple-600 transition-colors duration-200">{course.instructor}</p>
                   <div className="flex items-center mb-2">
                     <div className="flex text-yellow-400">
                       ★★★★★
@@ -500,7 +501,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-gray-900">{formatPrice(course.price)}</span>
-                    <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors cursor-pointer">
+                    <button className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-purple-800 transition-all duration-300 cursor-pointer btn-animated hover-lift transform hover:scale-105">
                       Ver curso
                     </button>
                   </div>
@@ -510,10 +511,11 @@ export default function Home() {
           </div>
 
           {/* Mostrar todos los cursos link */}
-          <div className="text-center mt-8">
+          <div className="text-center mt-8 animate-fade-in-up">
             <Link href="/dashboard">
-              <Button variant="outline" size="lg" className="border-purple-600 text-purple-600 hover:bg-purple-50 cursor-pointer">
-                Mostrar todos los cursos de Desarrollo Espiritual →
+              <Button variant="outline" size="lg" className="border-purple-600 text-purple-600 hover:bg-purple-50 cursor-pointer btn-animated hover-lift hover-glow transition-all duration-300 group">
+                Mostrar todos los cursos de Desarrollo Espiritual 
+                <span className="ml-2 inline-block transform group-hover:translate-x-1 transition-transform duration-300">→</span>
               </Button>
             </Link>
           </div>

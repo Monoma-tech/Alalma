@@ -94,7 +94,7 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
 
   return (
     <div 
-      className={`group cursor-pointer transition-all duration-300 hover:shadow-lg ${
+      className={`group cursor-pointer card-enhanced hover-lift-strong ${
         !hasAccess ? 'opacity-70' : ''
       }`}
       onMouseEnter={() => setIsHovered(true)}
@@ -166,17 +166,19 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
               <Button
                 size="sm"
                 variant="outline"
-                className={`bg-white/95 hover:bg-white cursor-pointer shadow-lg ${
+                className={`bg-white/95 hover:bg-white cursor-pointer shadow-lg hover-scale transition-all duration-300 ${
                   isInWishlist 
-                    ? 'text-red-600 border-red-200 hover:border-red-300' 
-                    : 'text-blue-700 border-blue-200'
+                    ? 'text-red-600 border-red-200 hover:border-red-300 animate-bounce-in' 
+                    : 'text-blue-700 border-blue-200 hover:border-blue-300'
                 }`}
                 onClick={(e) => {
                   e.stopPropagation()
                   onAddToWishlist(product)
                 }}
               >
-                <Heart className={`w-4 h-4 ${isInWishlist ? 'fill-current' : ''}`} />
+                <Heart className={`w-4 h-4 transition-all duration-300 ${
+                  isInWishlist ? 'fill-current animate-pulse-glow' : 'hover:scale-110'
+                }`} />
               </Button>
             </div>
           </div>
@@ -255,7 +257,13 @@ export function WisdomProductCardWithPlan({ product, onAddToCart, onAddToWishlis
           {/* Action Button */}
           <Button
             ref={buttonRef}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md"
+            className={`w-full text-white cursor-pointer btn-animated hover-lift transition-all duration-300 shadow-sm hover:shadow-lg ${
+              !hasAccess 
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' 
+                : isIncludedInPlan 
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700' 
+                  : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'
+            }`}
             onClick={handleAddToCart}
             disabled={!product.inStock && hasAccess}
           >

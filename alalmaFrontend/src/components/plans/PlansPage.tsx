@@ -9,14 +9,13 @@ import {
   ArrowLeft, 
   Check, 
   Crown, 
-  Sparkles,
   Zap,
   Heart,
   Shield,
   Search,
   Home
 } from 'lucide-react'
-import { availablePlans, formatPrice, getPlanByLevel, type PlanLevel } from '@/data/plans'
+import { availablePlans, formatPrice, type PlanLevel } from '@/data/plans'
 import { useUserPlan } from '@/contexts/UserPlanContext'
 import { useAuth } from '@/contexts/AuthContext'
 
@@ -152,36 +151,36 @@ export function PlansPage() {
 
           {/* Current Plan Badge - Solo mostrar si tiene un plan activo */}
           {userPlan.isActive && userPlan.level !== 'free' && (
-            <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium mb-8">
-              <Shield className="w-4 h-4 mr-2" />
+            <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium mb-8 animate-bounce-in hover-glow">
+              <Shield className="w-4 h-4 mr-2 animate-pulse-glow" />
               Plan actual: {userPlan.name}
             </div>
           )}
         </div>
 
         {/* Billing Toggle */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-white border border-gray-200 rounded-lg p-1">
+        <div className="flex justify-center mb-8 animate-fade-in-up">
+          <div className="bg-white border border-gray-200 rounded-lg p-1 hover-lift card-enhanced">
             <button
               onClick={() => setBillingCycle('monthly')}
-              className={`px-6 py-2 rounded-md text-sm font-medium transition-all cursor-pointer ${
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-all duration-300 cursor-pointer transform ${
                 billingCycle === 'monthly'
-                  ? 'bg-purple-600 text-white shadow-sm'
-                  : 'text-gray-700 hover:text-purple-600'
+                  ? 'bg-purple-600 text-white shadow-sm scale-105'
+                  : 'text-gray-700 hover:text-purple-600 hover:scale-105'
               }`}
             >
               Mensual
             </button>
             <button
               onClick={() => setBillingCycle('yearly')}
-              className={`px-6 py-2 rounded-md text-sm font-medium transition-all relative cursor-pointer ${
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-all duration-300 relative cursor-pointer transform ${
                 billingCycle === 'yearly'
-                  ? 'bg-purple-600 text-white shadow-sm'
-                  : 'text-gray-700 hover:text-purple-600'
+                  ? 'bg-purple-600 text-white shadow-sm scale-105'
+                  : 'text-gray-700 hover:text-purple-600 hover:scale-105'
               }`}
             >
               Anual
-              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full animate-bounce-in animate-pulse">
                 Ahorra
               </span>
             </button>
@@ -189,15 +188,15 @@ export function PlansPage() {
         </div>
 
         {/* Plans Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 stagger-animation">
           {availablePlans.map((plan) => (
             <Card 
               key={plan.level} 
-              className={`relative overflow-hidden transition-all duration-300 hover:shadow-xl border-2 ${
+              className={`relative overflow-hidden card-enhanced hover-lift-strong border-2 group ${
                 selectedPlan === plan.level 
-                  ? 'border-green-500 shadow-green-200 scale-105 ring-4 ring-green-200' 
+                  ? 'border-green-500 shadow-green-200 scale-105 ring-4 ring-green-200 animate-pulse-glow' 
                   : getPlanBorder(plan.level, plan.popular)
-              } ${plan.popular ? 'scale-105' : 'hover:scale-105'} ${
+              } ${plan.popular ? 'scale-105 animate-float' : ''} ${
                 selectedPlan === plan.level ? 'animate-pulse' : ''
               }`}
             >
