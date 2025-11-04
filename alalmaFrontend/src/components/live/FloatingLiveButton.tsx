@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
-import { X, Video, Lock, Crown } from 'lucide-react'
+import { X, Video, Lock } from 'lucide-react'
 import { useLivePermissions, useLiveUpgradeModal } from '@/contexts/LivePermissionsContext'
+import { useAuth } from '@/contexts/AuthContext'
 
 interface FloatingLiveButtonProps {
   /**
@@ -42,8 +43,11 @@ export function FloatingLiveButton({
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   
+  // Verificar autenticación primero
+  const { isAuthenticated, isLoading } = useAuth()
+  
   // Usar permisos de live streaming
-  const { canStartLive, checkLivePermissions } = useLivePermissions()
+  const { canStartLive } = useLivePermissions()
   const { checkAndShowUpgrade } = useLiveUpgradeModal()
 
   // Auto-hide en scroll down, show en scroll up
@@ -70,7 +74,8 @@ export function FloatingLiveButton({
   // No mostrar en páginas específicas
   const shouldHide = hiddenOnPages.some(page => pathname.startsWith(page))
   
-  if (shouldHide || !canStartLive) {
+  // CRÍTICO: No mostrar si el usuario NO está autenticado o si está cargando
+  if (shouldHide || !isAuthenticated || isLoading || !canStartLive) {
     return null
   }
 
